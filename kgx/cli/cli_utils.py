@@ -325,14 +325,19 @@ def merge(merge_config: str, targets: Optional[List] = None, processes: int = 1)
             targets_to_parse[key] = cfg['merged_graph']['targets'][key]
 
     results = []
-    pool = Pool(processes=processes)
+    # pool = Pool(processes=processes)
+    # for k, v in targets_to_parse.items():
+    #     log.info(f"Spawning process for '{k}'")
+    #     result = pool.apply_async(parse_target, (k, v, output_directory, curie_map, node_properties, predicate_mappings, checkpoint))
+    #     results.append(result)
+    # pool.close()
+    # pool.join()
+    # graphs = [r.get() for r in results]
+    # merged_graph = merge_all_graphs(graphs)
+    graphs = []
     for k, v in targets_to_parse.items():
-        log.info(f"Spawning process for '{k}'")
-        result = pool.apply_async(parse_target, (k, v, output_directory, curie_map, node_properties, predicate_mappings, checkpoint))
-        results.append(result)
-    pool.close()
-    pool.join()
-    graphs = [r.get() for r in results]
+        g = parse_target(k, v, output_directory, curie_map, node_properties, predicate_mappings, checkpoint)
+        graphs.append(g)
     merged_graph = merge_all_graphs(graphs)
 
     if 'name' in cfg['merged_graph']:
