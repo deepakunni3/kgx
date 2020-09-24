@@ -334,6 +334,8 @@ class RdfTransformer(RdfGraphMixin, Transformer):
                         #prop_uri = self.prefix_manager.contract(prop_uri)
                     else:
                         prop_uri = k
+                        if not self.prefix_manager.is_curie(prop_uri):
+                            prop_uri = f":{k}"
                 else:
                     prop_uri = canonical_uri if canonical_uri else element_uri
                 prop_type = self._get_property_type(prop_uri)
