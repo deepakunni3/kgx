@@ -334,11 +334,10 @@ class RdfTransformer(RdfGraphMixin, Transformer):
                         #prop_uri = self.prefix_manager.contract(prop_uri)
                     else:
                         prop_uri = k
-                        if not self.prefix_manager.is_curie(prop_uri):
-                            prop_uri = f":{k}"
                 else:
                     prop_uri = canonical_uri if canonical_uri else element_uri
                 prop_type = self._get_property_type(prop_uri)
+                log.debug(f"prop {k} has prop_uri {prop_uri} and prop_type {prop_type}")
                 prop_uri = self.uriref(prop_uri)
                 if isinstance(v, (list, set, tuple)):
                     for x in v:
@@ -387,7 +386,8 @@ class RdfTransformer(RdfGraphMixin, Transformer):
                             #prop_uri = self.prefix_manager.contract(prop_uri)
                         else:
                             prop_uri = predicate
-                    prop_type = self._get_property_type(prop_uri)
+                    prop_type = self._get_property_type(prop)
+                    log.debug(f"prop {prop} has prop_uri {prop_uri} and prop_type {prop_type}")
                     prop_uri = self.uriref(prop_uri)
                     if isinstance(value, list):
                         for x in value:
@@ -416,7 +416,8 @@ class RdfTransformer(RdfGraphMixin, Transformer):
                                 #prop_uri = self.prefix_manager.contract(prop_uri)
                             else:
                                 prop_uri = predicate
-                        prop_type = self._get_property_type(prop_uri)
+                        prop_type = self._get_property_type(prop)
+                        log.debug(f"prop {prop} has prop_uri {prop_uri} and prop_type {prop_type}")
                         prop_uri = self.uriref(prop_uri)
                         if isinstance(value, list):
                             for x in value:
@@ -492,6 +493,8 @@ class RdfTransformer(RdfGraphMixin, Transformer):
         else:
             if p in self.property_types:
                 t = self.property_types[p]
+            elif f':{p}' in self.property_types:
+                t = self.property_types[f':{p}']
             elif f'biolink:{p}' in self.property_types:
                 t = self.property_types[f'biolink:{p}']
             else:
@@ -532,18 +535,24 @@ class RdfTransformer(RdfGraphMixin, Transformer):
             uri = reverse_property_mapping[identifier]
         else:
             # identifier is an entity
-            if identifier.startswith(':'):
+            fixed_identifier = identifier
+            if fixed_identifier.startswith(':'):
                 # TODO: this should be handled upstream by prefixcommons-py
-                uri = self.DEFAULT.term(identifier.replace(':', '', 1))
+                fixed_identifier = fixed_identifier.replace(':', '', 1)
+            if ' ' in identifier:
+                fixed_identifier = fixed_identifier.replace(' ', '_')
+
+            if self.prefix_manager.is_curie(fixed_identifier):
+                uri = self.prefix_manager.expand(fixed_identifier)
+                if fixed_identifier == uri:
+                    uri = self.DEFAULT.term(fixed_identifier)
+            elif self.prefix_manager.is_iri(fixed_identifier):
+                uri = fixed_identifier
             else:
-                uri = self.prefix_manager.expand(identifier)
+                uri = self.DEFAULT.term(fixed_identifier)
             # if identifier == uri:
             #     if PrefixManager.is_curie(identifier):
             #         identifier = identifier.replace(':', '_')
-            #     if ' ' in identifier:
-            #         identifier = identifier.replace(' ', '_')
-            #     uri = self.DEFAULT.term(identifier)
-
         return URIRef(uri)
 
 
