@@ -10,7 +10,7 @@ from cachetools import LRUCache
 from prefixcommons.curie_util import contract_uri
 from prefixcommons.curie_util import expand_uri
 
-from kgx.config import get_jsonld_context, get_logger
+from kgx.config import get_jsonld_context, get_logger, get_config
 
 toolkit = None
 curie_lookup_service = None
@@ -230,8 +230,9 @@ def get_toolkit() -> Toolkit:
 
     """
     global toolkit
+    cfg = get_config()
     if toolkit is None:
-        toolkit = Toolkit()
+        toolkit = Toolkit(cfg['biolink-model']['remote'])
 
     return toolkit
 
