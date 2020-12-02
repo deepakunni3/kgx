@@ -41,8 +41,8 @@ def test_parse1():
     assert e1['type'] == 'OBAN:association'
     assert e1['has_evidence'] == 'ECO:0000501'
 
-    e2 = list(t1.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2['subject'] == 'Orphanet:93262'
+    e2 = list(t1.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2['subject'] == 'ORPHA:93262'
     assert e2['object'] == 'HP:0000505'
     assert e2['relation'] == 'RO:0002200'
     assert e2['type'] == 'OBAN:association'
@@ -77,13 +77,13 @@ def test_parse2():
     assert e1['has_evidence'] == 'ECO:0000501'
     assert e1['dc_source'] == 'OMIM:166400'
 
-    e2 = list(t1.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2['subject'] == 'Orphanet:93262'
+    e2 = list(t1.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2['subject'] == 'ORPHA:93262'
     assert e2['object'] == 'HP:0000505'
     assert e2['relation'] == 'RO:0002200'
     assert e2['type'] == 'OBAN:association'
     assert e2['frequency_of_phenotype'] == 'HP:0040283'
-    assert e2['dc_source'] == 'Orphanet:93262'
+    assert e2['dc_source'] == 'ORPHA:93262'
 
 def test_save1():
     np = {
@@ -108,8 +108,8 @@ def test_save1():
     assert e1['type'] == 'OBAN:association'
     assert e1['has_evidence'] == 'ECO:0000501'
 
-    e2 = list(t1.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2['subject'] == 'Orphanet:93262'
+    e2 = list(t1.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2['subject'] == 'ORPHA:93262'
     assert e2['object'] == 'HP:0000505'
     assert e2['relation'] == 'RO:0002200'
     assert e2['type'] == 'OBAN:association'
@@ -158,13 +158,13 @@ def test_save2():
     assert e1t1['has_evidence'] == 'ECO:0000501'
     assert e1t1['dc_source'] == 'OMIM:166400'
 
-    e2t1 = list(t1.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2t1['subject'] == 'Orphanet:93262'
+    e2t1 = list(t1.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2t1['subject'] == 'ORPHA:93262'
     assert e2t1['object'] == 'HP:0000505'
     assert e2t1['relation'] == 'RO:0002200'
     assert e2t1['type'] == 'OBAN:association'
     assert e2t1['frequency_of_phenotype'] == 'HP:0040283'
-    assert e2t1['dc_source'] == 'Orphanet:93262'
+    assert e2t1['dc_source'] == 'ORPHA:93262'
 
     t1.set_property_types({'frequency_of_phenotype': 'uriorcurie', 'dc_source': 'uriorcurie'})
     t1.save(os.path.join(target_dir, 'oban-export.ttl'), output_format='ttl')
@@ -189,13 +189,13 @@ def test_save2():
     assert e1t2['has_evidence'] == 'ECO:0000501'
     assert e1t2['dc_source'] == 'OMIM:166400'
 
-    e2t2 = list(t2.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2t2['subject'] == 'Orphanet:93262'
+    e2t2 = list(t2.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2t2['subject'] == 'ORPHA:93262'
     assert e2t2['object'] == 'HP:0000505'
     assert e2t2['relation'] == 'RO:0002200'
     assert e2t2['type'] == 'biolink:Association'
     assert e2t2['frequency_of_phenotype'] == 'HP:0040283'
-    assert e2t2['dc_source'] == 'Orphanet:93262'
+    assert e2t2['dc_source'] == 'ORPHA:93262'
 
     t3 = ObanRdfTransformer(curie_map=cmap)
     t3.set_predicate_mapping(predicate_mapping)
@@ -215,13 +215,13 @@ def test_save2():
     assert e1t3['has_evidence'] == 'ECO:0000501'
     assert e1t3['dc_source'] == 'OMIM:166400'
 
-    e2t3 = list(t3.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2t3['subject'] == 'Orphanet:93262'
+    e2t3 = list(t3.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2t3['subject'] == 'ORPHA:93262'
     assert e2t3['object'] == 'HP:0000505'
     assert e2t3['relation'] == 'RO:0002200'
     assert e2t3['type'] == 'biolink:Association'
     assert e2t3['frequency_of_phenotype'] == 'HP:0040283'
-    assert e2t3['dc_source'] == 'Orphanet:93262'
+    assert e2t3['dc_source'] == 'ORPHA:93262'
 
 
 def test_save3():
@@ -258,13 +258,13 @@ def test_save3():
     assert e1['has_evidence'] == 'ECO:0000501'
     assert e1['dc_source'] == 'OMIM:166400'
 
-    e2 = list(t1.graph.get_edge_data('Orphanet:93262', 'HP:0000505').values())[0]
-    assert e2['subject'] == 'Orphanet:93262'
+    e2 = list(t1.graph.get_edge_data('ORPHA:93262', 'HP:0000505').values())[0]
+    assert e2['subject'] == 'ORPHA:93262'
     assert e2['object'] == 'HP:0000505'
     assert e2['relation'] == 'RO:0002200'
     assert e2['type'] == 'OBAN:association'
     assert e2['frequency_of_phenotype'] == 'HP:0040283'
-    assert e2['dc_source'] == 'Orphanet:93262'
+    assert e2['dc_source'] == 'ORPHA:93262'
 
     t1.save(os.path.join(target_dir, 'oban-export.ttl'), output_format='ttl')
     t1.save(os.path.join(target_dir, 'oban-export.nt'), output_format='nt')
